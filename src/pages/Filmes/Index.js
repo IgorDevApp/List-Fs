@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Animatable from 'react-native-animatable'
 import TaskList from "../../Components/TaskList"
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+const AnimatedFl = Animatable.createAnimatableComponent(FlatList)
 
 const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity)
 
@@ -63,7 +63,8 @@ export default function Filmes({taskf}){
                   Meus Filmes
               </Text>
           </View>
-        <FlatList
+        <AnimatedFl
+          animation="fadeInUp" useNativeDriver
           marginVertical={5}
           marginHorizontal={10}
           showsHorizontalScrollIndicator={false}

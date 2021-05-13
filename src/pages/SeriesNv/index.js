@@ -9,6 +9,7 @@ import {useNavigation} from "@react-navigation/native"
 
 export default function SeriesNv(){
     const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity)
+    const AnimatedFl = Animatable.createAnimatableComponent(FlatList)
     const navigation = useNavigation()
     const [task, setTask] = useState([])
     const [open, setOpen] = useState(false)
@@ -67,7 +68,8 @@ export default function SeriesNv(){
                 Series Não Vistas
             </Text>
           </View>
-        <FlatList
+        <AnimatedFl
+          animation="fadeInUp" useNativeDriver
           marginVertical={5}
           marginHorizontal={10}
           showsHorizontalScrollIndicator={false}
@@ -75,7 +77,7 @@ export default function SeriesNv(){
           keyExtractor={(item)=> item.key}
          renderItem={({item})=> <TaskListSNv data={item} handleDelete={handleDelete}  />}
          >
-         </FlatList>
+         </AnimatedFl>
 
 
         <Modal

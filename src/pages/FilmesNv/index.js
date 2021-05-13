@@ -10,8 +10,8 @@ import {
   AdMobInterstitial,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
-
 const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity)
+const AnimatedFl = Animatable.createAnimatableComponent(FlatList)
 
 
 export default function FilmesNv(){
@@ -65,10 +65,8 @@ export default function FilmesNv(){
       const find = task.filter(r => r.key !== data.key)
       setTask(find)
       navigation.navigate("Filmes")
-      InterstitialAd()
+      //InterstitialAd()
     })
-
-
     return (
       <SafeAreaView style={styles.Container}>
             <View style={styles.titulo}>
@@ -76,7 +74,8 @@ export default function FilmesNv(){
                   Filmes Não Vistos
               </Text>
           </View>
-        <FlatList
+        <AnimatedFl
+          animation="fadeInUp" useNativeDriver
           marginVertical={5}
           marginHorizontal={10}
           showsHorizontalScrollIndicator={false}

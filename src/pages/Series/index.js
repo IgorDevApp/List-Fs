@@ -5,7 +5,7 @@ import TaskListS from "../../Components/TaskListS"
 import * as Animatable from 'react-native-animatable'
 import { color } from 'react-native-reanimated';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+const AnimatedFl = Animatable.createAnimatableComponent(FlatList)
 
 export default function Series(){
     const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity)
@@ -77,6 +77,7 @@ export default function Series(){
             </Text>
           </View>
         <FlatList
+          animation="fadeInUp" useNativeDriver
           marginVertical={5}
           marginHorizontal={10}
           showsHorizontalScrollIndicator={false}
