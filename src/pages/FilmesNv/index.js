@@ -5,11 +5,22 @@ import * as Animatable from 'react-native-animatable'
 import TaskListn from "../../Components/TaskListNv"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useNavigation} from "@react-navigation/native"
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
 const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity)
 
 
 export default function FilmesNv(){
+
+
+  async function InterstitialAd(){
+    await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
+    await AdMobInterstitial.showAdAsync();
+  }
     const navigation = useNavigation()
     const [task, setTask] = useState([])
     const [open, setOpen] = useState(false)
@@ -54,6 +65,7 @@ export default function FilmesNv(){
       const find = task.filter(r => r.key !== data.key)
       setTask(find)
       navigation.navigate("Filmes")
+      InterstitialAd()
     })
 
 

@@ -6,9 +6,7 @@ import {createStackNavigator} from "@react-navigation/stack"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 
 import {
-  AdMobBanner,
   AdMobInterstitial,
-  setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
 import Series from './src/pages/Series'
