@@ -26,6 +26,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000066"
       },
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-9856227876692399~2384807726" 
+      },
       "package": "com.IgorDev.ListFs",
       "versionCode": 1
     }

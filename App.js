@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { StyleSheet, Text, View,TouchableOpacity,} from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import {NavigationContainer} from "@react-navigation/native"
 import {createStackNavigator} from "@react-navigation/stack"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
+
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
 import Series from './src/pages/Series'
 import SeriesNv from './src/pages/SeriesNv'
@@ -15,6 +21,21 @@ const Stack = createStackNavigator()
 const tab = createBottomTabNavigator()
 
 export default function App() {
+
+    useEffect(()=>{
+
+      async function LoadAd(){
+        await AdMobInterstitial.setAdUnitID('ca-app-pub-9856227876692399/7658343372'); 
+        InterstitialAd()
+      }
+      LoadAd()
+    },[])
+
+    async function InterstitialAd(){
+      await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
+      await AdMobInterstitial.showAdAsync();
+    }
+
   return (  
     <NavigationContainer>
       <tab.Navigator
