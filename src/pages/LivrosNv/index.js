@@ -29,10 +29,11 @@ export default function LivrosNv() {
   const [inputAno, setInputAno] = useState("");
   const [inputCit, setInputCit] = useState("");
   const [inputCit2, setInputCit2] = useState("");
+  const [Color, setColor] = useState("");
 
   useEffect(() => {
     async function loadTask() {
-      const taskStorange = await AsyncStorage.getItem("@LivrosN");
+      const taskStorange = await AsyncStorage.getItem("@LivrosNv");
 
       if (taskStorange) {
         setTask(JSON.parse(taskStorange));
@@ -44,7 +45,7 @@ export default function LivrosNv() {
 
   useEffect(() => {
     async function saveTask() {
-      await AsyncStorage.setItem("@LivrosN", JSON.stringify(task));
+      await AsyncStorage.setItem("@LivrosNv", JSON.stringify(task));
     }
     saveTask();
   }, [task]);

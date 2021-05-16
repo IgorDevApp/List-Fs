@@ -29,6 +29,7 @@ export default function Livros() {
   const [inputAno, setInputAno] = useState("");
   const [inputCit, setInputCit] = useState("");
   const [inputCit2, setInputCit2] = useState("");
+  const [Color, setColor] = useState("");
 
   useEffect(() => {
     async function loadTask() {
@@ -79,7 +80,7 @@ export default function Livros() {
   return (
     <SafeAreaView style={styles.Container}>
       <View style={styles.titulo}>
-        <Text style={styles.textTitulo}>Livros Não Lidos</Text>
+        <Text style={styles.textTitulo}>Livros Lidos</Text>
       </View>
       <AnimatedFl
         animation="fadeInUp"

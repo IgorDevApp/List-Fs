@@ -8,6 +8,7 @@ import {
   Modal,
   TextInput,
   Card,
+  length,
 } from "react-native";
 import { Divider } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,6 +17,91 @@ import { divide } from "react-native-reanimated";
 
 //Quando recebe coloca chaves:Estou recebendo meu data
 export default function TaskListL({ data, handleDelete }) {
+  let ano = data.ano;
+  let aut = data.At;
+  let cit1 = data.cit;
+  let cit2 = data.cit2;
+  let tit = data.task;
+
+  function aviso(ano, aut, cit1, cit2) {
+    if (ano == "" && cit1 == "" && cit2 == "" && aut == "") {
+      return (
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.TextAviso}>
+            Acho que esqueceu de alguns detalhes, porem é impossivel fazer
+            alterações. Caso queira adicionar algum detalhe terá que apagar esse
+            e adionar um novo.
+          </Text>
+        </View>
+      );
+    }
+  }
+
+  function Ano(ano) {
+    if (ano !== "") {
+      return (
+        <View
+          style={styles.ModalContainer}
+          animation="bounceIn"
+          useNativeDriver
+        >
+          <View>
+            <Text style={styles.TextAt}>Ano: {data.ano}</Text>
+          </View>
+        </View>
+      );
+    } else {
+      return <View></View>;
+    }
+  }
+  function Cit1(cit1) {
+    if (cit1 !== "") {
+      return (
+        <View style={styles.ContainerCit} animation="bounceIn" useNativeDriver>
+          <View>
+            <Text style={styles.TextAt}>1ª Citação: {data.cit}</Text>
+          </View>
+        </View>
+      );
+    } else {
+      return <View></View>;
+    }
+  }
+  function Cit2(cit2) {
+    if (cit2 !== "") {
+      return (
+        <View style={styles.ContainerCit} animation="bounceIn" useNativeDriver>
+          <View>
+            <Text style={styles.TextAt}>2ª Citação: {data.cit2}</Text>
+          </View>
+        </View>
+      );
+    } else {
+      return <View></View>;
+    }
+  }
+  function Aut(aut) {
+    if (aut !== "") {
+      return (
+        <View
+          style={styles.ModalContainer}
+          animation="bounceIn"
+          useNativeDriver
+        >
+          <View>
+            <Text style={styles.TextAt}>Autor(a): {data.At}</Text>
+          </View>
+        </View>
+      );
+    } else {
+      return <View></View>;
+    }
+  }
+
   const [Open, setOpen] = useState(false);
   return (
     <Animatable.View animation="bounceIn" useNativeDriver>
@@ -42,7 +128,9 @@ export default function TaskListL({ data, handleDelete }) {
             >
               <Ionicons name="close-circle" size={23} color="#fff"></Ionicons>
             </TouchableOpacity>
-            <Text style={styles.tituloModal}>{data.task}</Text>
+            <View style={{ width: 300 }}>
+              <Text style={styles.tituloModal}>{data.task}</Text>
+            </View>
           </View>
 
           <Animatable.View
@@ -51,42 +139,11 @@ export default function TaskListL({ data, handleDelete }) {
             style={styles.corpoModal}
             transparent
           >
-            <View
-              style={styles.ModalContainer}
-              animation="bounceIn"
-              useNativeDriver
-            >
-              <View>
-                <Text style={styles.TextAt}>Autor(a): {data.At}</Text>
-              </View>
-            </View>
-            <View
-              style={styles.ModalContainer}
-              animation="bounceIn"
-              useNativeDriver
-            >
-              <View>
-                <Text style={styles.TextAt}>Ano: {data.ano}</Text>
-              </View>
-            </View>
-            <View
-              style={styles.ContainerCit}
-              animation="bounceIn"
-              useNativeDriver
-            >
-              <View>
-                <Text style={styles.TextAt}>1ª Citação: {data.cit}</Text>
-              </View>
-            </View>
-            <View
-              style={styles.ContainerCit}
-              animation="bounceIn"
-              useNativeDriver
-            >
-              <View>
-                <Text style={styles.TextAt}>2ª Citação : {data.cit2}</Text>
-              </View>
-            </View>
+            {Aut(aut)}
+            {Ano(ano)}
+            {Cit1(cit1)}
+            {Cit2(cit2)}
+            {aviso(ano, aut, cit1, cit2)}
           </Animatable.View>
         </SafeAreaView>
       </Modal>
@@ -111,6 +168,16 @@ const styles = StyleSheet.create({
       width: 1,
       height: 3,
     },
+  },
+  TextAviso: {
+    color: "#fff",
+    fontSize: 30,
+    fontWeight: "bold",
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: 60,
+    textAlign: "center",
+    zIndex: 9,
   },
   ModalContainer: {
     width: 345,
@@ -234,17 +301,22 @@ const styles = StyleSheet.create({
   modalbtn: {
     marginLeft: 5,
     marginRight: 5,
+    position: "absolute",
+    left: 1,
+    right: 1,
   },
   modalHeader: {
     marginTop: 10,
     flexDirection: "row",
     marginLeft: 10,
     marginTop: 20,
-    alignItems: "center",
   },
   tituloModal: {
     fontSize: 20,
     color: "#fff",
+    textAlignVertical: "center",
+    marginLeft: 60,
+    textAlign: "center",
   },
   corpoModal: {
     marginTop: 15,
