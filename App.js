@@ -1,128 +1,70 @@
-import React, { useEffect} from 'react';
-import { StyleSheet, Text, View,TouchableOpacity,} from 'react-native';
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import {NavigationContainer} from "@react-navigation/native"
-import {createStackNavigator} from "@react-navigation/stack"
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-import {
-  AdMobInterstitial,
-} from 'expo-ads-admob';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Series from './src/pages/Series'
-import SeriesNv from './src/pages/SeriesNv'
-import Filmes from './src/pages/Filmes/Index'
-import FilmesNv from './src/pages/FilmesNv/index'
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+const tab = createMaterialTopTabNavigator();
 
-const Stack = createStackNavigator()
-const tab = createBottomTabNavigator()
+import SeriesT from "./src/pagesTop/SeriesT";
+import FilmesT from "./src/pagesTop/FilmesT";
+import LivrosT from "./src/pagesTop/LivrosT";
+
+const Stack = createStackNavigator();
+//const tab = createBottomTabNavigator();
 
 export default function App() {
-
-    useEffect(()=>{
-
-      async function LoadAd(){
-        await AdMobInterstitial.setAdUnitID('ca-app-pub-9856227876692399/7658343372'); 
-        InterstitialAd()
-      }
-      LoadAd()
-    },[])
-
-    async function InterstitialAd(){
-      await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
-      await AdMobInterstitial.showAdAsync();
-    }
-
-  return (  
-
-    
+  return (
     <NavigationContainer>
       <tab.Navigator
-      tabBarOptions={{
-        activeBackgroundColor:"#fff",
-        inactiveBackgroundColor:"#0d212f",
-        activeTintColor:"#000",
-        inactiveTintColor:"#fff",
-        showLabel:10,
-        labelStyle: {
-            fontSize: 20,
-            paddingBottom:5,
-            paddingRight:35
-        },
-        style: {
-                paddingTop: 4,
-                backgroundColor: '#35383938',
-                height: 57,
-
-                ...Platform.select({
-                    android: {
-                     elevation: 3
-                    }
-                })
-            }
-        
-      }}
+        tabBarOptions={{
+          showLabel: 10,
+          activeTintColor: "#fff",
+          inactiveTintColor: "#0d212f",
+          showIcon: true,
+          labelStyle: {
+            fontSize: 10,
+          },
+          style: {
+            paddingTop: 10,
+            height: 70,
+            backgroundColor: "#0d212f",
+            ...Platform.select({
+              android: {
+                elevation: 3,
+              },
+            }),
+          },
+        }}
       >
-      <tab.Screen 
-      name="FilmesNv" 
-      component={FilmesNv} 
-      options={{ tabBarLabel:"Filmes ",
-                  tabBarIcon: ({color})=>(
-                  <Ionicons 
-                  style={{
-                    paddingLeft:60,
-                    paddingTop:43
-                  }}
-                  name="checkmark-sharp"
-                  color="#0d212f" 
-                  size={30}/>
-      )}} />
-      <tab.Screen 
-      name="Filmes" 
-      component={Filmes}
-      options={{ tabBarLabel:"Filmes",
-                  tabBarIcon: ({color})=>(
-                  <Ionicons 
-                  style={{
-                    paddingLeft:60,
-                    paddingTop:43
-                  }}
-                  name="checkmark-done-sharp"
-                  color="#0d212f" 
-                  size={30}/>
-      ) }} />
-      <tab.Screen 
-      name="SeriesNv" 
-      component={SeriesNv} 
-      options={{ tabBarLabel:"Series",
-                  tabBarIcon: ({color})=>(
-                  <Ionicons 
-                  style={{
-                    paddingLeft:60,
-                    paddingTop:43
-                  }}
-                  name="checkmark-sharp"
-                  color="#0d212f" 
-                  size={30}/>
-      )}} />
-      <tab.Screen 
-      name="Series" 
-      component={Series} 
-      options={{ tabBarLabel:"Series",
-                  tabBarIcon: ({color})=>(
-                  <Ionicons 
-                  style={{
-                    paddingLeft:60,
-                    paddingTop:43
-                  }}
-                  name="checkmark-done-sharp"
-                  color="#0d212f" 
-                  size={30}/>
-      )}} />
-      
-
-    </tab.Navigator>
+        <tab.Screen
+          name="Filmes"
+          component={FilmesT}
+          options={{
+            tabBarLabel: "Filmes",
+            tabBarIcon: () => <Ionicons name="film" color="#fff" size={26} />,
+          }}
+        />
+        <tab.Screen
+          name="Series"
+          component={SeriesT}
+          options={{
+            tabBarLabel: "Series",
+            tabBarIcon: () => <Ionicons name="tv" color="#fff" size={26} />,
+          }}
+        />
+        <tab.Screen
+          name="Livros"
+          component={LivrosT}
+          options={{
+            tabBarLabel: "Livros",
+            tabBarIcon: () => <Ionicons name="book" color="#fff" size={26} />,
+          }}
+        />
+      </tab.Navigator>
     </NavigationContainer>
   );
 }
-

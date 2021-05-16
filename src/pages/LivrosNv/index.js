@@ -9,25 +9,30 @@ import {
   Modal,
   TextInput,
   AsyncStorageStatic,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import TaskListS from "../../Components/TaskListS";
+import TaskListLNv from "../../Components/TaskListLNv";
 import * as Animatable from "react-native-animatable";
 import { color } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const AnimatedFl = Animatable.createAnimatableComponent(FlatList);
+import { useNavigation } from "@react-navigation/native";
 
-export default function Series() {
+export default function LivrosNv() {
   const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity);
+  const AnimatedFl = Animatable.createAnimatableComponent(FlatList);
+  const navigation = useNavigation();
   const [task, setTask] = useState([]);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [inputTemp, setInputTemp] = useState("");
-  const [inputEp, setInputEp] = useState("");
+  const [inputAt, setInputAt] = useState("");
+  const [inputAno, setInputAno] = useState("");
+  const [inputCit, setInputCit] = useState("");
+  const [inputCit2, setInputCit2] = useState("");
 
   useEffect(() => {
     async function loadTask() {
-      const taskStorange = await AsyncStorage.getItem("@filmes");
+      const taskStorange = await AsyncStorage.getItem("@LivrosN");
 
       if (taskStorange) {
         setTask(JSON.parse(taskStorange));
@@ -39,7 +44,7 @@ export default function Series() {
 
   useEffect(() => {
     async function saveTask() {
-      await AsyncStorage.setItem("@filmes", JSON.stringify(task));
+      await AsyncStorage.setItem("@LivrosN", JSON.stringify(task));
     }
     saveTask();
   }, [task]);
@@ -50,31 +55,31 @@ export default function Series() {
     const data = {
       key: input,
       task: input,
-      temp: inputTemp,
-      ep: inputEp,
+      At: inputAt,
+      ano: inputAno,
+      cit: inputCit,
+      cit2: inputCit2,
     };
 
     setTask([...task, data]);
     setOpen(false);
     setInput("");
-    setInputTemp("");
-    setInputEp("");
+    setInputAt("");
+    setInputAno("");
+    setInputCit("");
+    setInputCit2("");
   }
 
   const handleDelete = useCallback((data) => {
     const find = task.filter((r) => r.key !== data.key);
     setTask(find);
+    navigation.navigate("Livros");
   });
 
   return (
     <SafeAreaView style={styles.Container}>
       <View style={styles.titulo}>
-        <Text style={styles.textTitulo}>Minhas Series</Text>
-      </View>
-      <View style={styles.txts}>
-        <Text style={styles.txtS}>Nome</Text>
-        <Text style={styles.txt}>TP</Text>
-        <Text style={styles.txt}>EP</Text>
+        <Text style={styles.textTitulo}>Livros Não Lidos</Text>
       </View>
       <AnimatedFl
         animation="fadeInUp"
@@ -85,7 +90,7 @@ export default function Series() {
         data={task.sort((a, b) => a.task.localeCompare(b.task))}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <TaskListS data={item} handleDelete={handleDelete} />
+          <TaskListLNv data={item} handleDelete={handleDelete} />
         )}
       ></AnimatedFl>
 
@@ -98,50 +103,80 @@ export default function Series() {
             >
               <Ionicons name="md-arrow-back" size={40} color="#fff"></Ionicons>
             </TouchableOpacity>
-            <Text style={styles.tituloModal}>Nova Serie</Text>
+            <Text style={styles.tituloModal}>Novo Livro</Text>
           </View>
 
-          <Animatable.View
-            animation="fadeInUp"
-            useNativeDriver
-            style={styles.corpoModal}
-          >
-            <TextInput
-              placeholder="Qual o nome da serie?"
-              textAlign="center"
-              style={styles.TextInput}
-              maxLength={30}
-              autoCorrect={false}
-              value={input}
-              editable={true}
-              onChangeText={(texto) => setInput(texto)}
-            ></TextInput>
+          <ScrollView>
+            <Animatable.View
+              animation="fadeInUp"
+              useNativeDriver
+              style={styles.corpoModal}
+            >
+              <TextInput
+                placeholder="Qual o nome do Livro?"
+                textAlign="center"
+                style={styles.TextInput}
+                maxLength={50}
+                multiline
+                autoCorrect={false}
+                value={input}
+                editable={true}
+                onChangeText={(texto) => setInput(texto)}
+              ></TextInput>
 
-            <TextInput
-              placeholder="Quantas temporadas foram vistas?"
-              keyboardType="numeric"
-              textAlign="center"
-              style={styles.TempInput}
-              value={inputTemp}
-              editable={true}
-              onChangeText={(texto) => setInputTemp(texto)}
-            ></TextInput>
+              <TextInput
+                placeholder="Qual o nome do autor(a)?"
+                textAlign="center"
+                style={styles.TextInput}
+                maxLength={35}
+                autoCorrect={false}
+                multiline
+                value={inputAt}
+                editable={true}
+                onChangeText={(texto) => setInputAt(texto)}
+              ></TextInput>
+              <TextInput
+                placeholder="Qual do Ano de Lançamento?"
+                textAlign="center"
+                style={styles.TextInput}
+                maxLength={4}
+                autoCorrect={false}
+                multiline
+                keyboardType="numeric"
+                value={inputAno}
+                editable={true}
+                onChangeText={(texto) => setInputAno(texto)}
+              ></TextInput>
+              <TextInput
+                placeholder="Quer Colocar uma citação?"
+                textAlign="center"
+                style={styles.TextInput}
+                maxLength={200}
+                defaultValue="Sem Citação"
+                autoCorrect={false}
+                multiline
+                value={inputCit}
+                editable={true}
+                onChangeText={(texto) => setInputCit(texto)}
+              ></TextInput>
+              <TextInput
+                placeholder="Quer Colocar outra citação?"
+                textAlign="center"
+                style={styles.TextInput}
+                maxLength={200}
+                defaultValue="Sem Citação"
+                autoCorrect={false}
+                multiline
+                value={inputCit2}
+                editable={true}
+                onChangeText={(texto) => setInputCit2(texto)}
+              ></TextInput>
+            </Animatable.View>
+          </ScrollView>
 
-            <TextInput
-              placeholder="Em que epsodio parou?"
-              keyboardType="numeric"
-              textAlign="center"
-              style={styles.TempInput}
-              editable={true}
-              value={inputEp}
-              editable={true}
-              onChangeText={(texto) => setInputEp(texto)}
-            ></TextInput>
-
-            <TouchableOpacity style={styles.btnAdd} onPress={handleAdd}>
-              <Text style={styles.TxtBtn}>Adicionar</Text>
-            </TouchableOpacity>
-          </Animatable.View>
+          <TouchableOpacity style={styles.btnAdd} onPress={handleAdd}>
+            <Text style={styles.TxtBtn}>Adicionar</Text>
+          </TouchableOpacity>
         </SafeAreaView>
       </Modal>
 
@@ -161,7 +196,7 @@ export default function Series() {
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: "#0d212f",
+    backgroundColor: "#0d241f",
   },
   titulo: {
     alignItems: "center",
@@ -203,9 +238,6 @@ const styles = StyleSheet.create({
     fontSize: 38,
     color: "#fff",
     marginLeft: 15,
-  },
-  corpoModal: {
-    marginTop: 15,
   },
   TextInput: {
     fontSize: 20,
@@ -250,7 +282,8 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginLeft: 120,
     marginRight: 10,
-    marginTop: 100,
+    marginTop: 50,
+    marginBottom: 25,
     backgroundColor: "#fff",
     padding: 9,
     height: 40,
