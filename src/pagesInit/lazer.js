@@ -5,7 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 const tab = createMaterialTopTabNavigator();
-import Home from "../pagesInit/home";
 import SeriesT from "../pagesTop/SeriesT";
 import FilmesT from "../pagesTop/FilmesT";
 import LivrosT from "../pagesTop/LivrosT";
