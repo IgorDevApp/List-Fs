@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, Component, useCallback, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,22 +11,26 @@ import {
   AsyncStorageStatic,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import NiverN from "../Components/niverN";
 import * as Animatable from "react-native-animatable";
-import TaskList from "../../Components/TaskList";
+import { color } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const AnimatedFl = Animatable.createAnimatableComponent(FlatList);
 import { useNavigation } from "@react-navigation/native";
-const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity);
 
-export default function Filmes({ taskf }) {
+export default function niver() {
+  const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity);
+  const AnimatedFl = Animatable.createAnimatableComponent(FlatList);
+  const navigation = useNavigation();
   const [task, setTask] = useState([]);
   const [open, setOpen] = useState(false);
-  const [input, setInput] = useState("");
-  const [inputTemp, setInputTemp] = useState("");
-  const navigation = useNavigation();
+  const [inputDia, setInputDia] = useState("");
+  const [inputMes, setInputMes] = useState("");
+  const [inputPres, setinputPres] = useState("");
+  const [inputNome, setinputNome] = useState("");
+
   useEffect(() => {
     async function loadTask() {
-      const taskStorange = await AsyncStorage.getItem("@task");
+      const taskStorange = await AsyncStorage.getItem("@niver");
 
       if (taskStorange) {
         setTask(JSON.parse(taskStorange));
@@ -38,23 +42,28 @@ export default function Filmes({ taskf }) {
 
   useEffect(() => {
     async function saveTask() {
-      await AsyncStorage.setItem("@task", JSON.stringify(task));
+      await AsyncStorage.setItem("@niver", JSON.stringify(task));
     }
     saveTask();
   }, [task]);
 
   function handleAdd() {
-    if (input === "") return;
+    if (inputDia === "") return;
 
     const data = {
-      key: input,
-      task: input,
-      da: taskf,
+      key: inputNome,
+      dia: inputDia,
+      nome: inputNome,
+      mes: inputMes,
+      pres: inputPres,
     };
 
     setTask([...task, data]);
     setOpen(false);
-    setInput("");
+    setInputDia("");
+    setinputNome("");
+    setinputPres("");
+    setInputMes("");
   }
 
   const handleDelete = useCallback((data) => {
@@ -65,7 +74,7 @@ export default function Filmes({ taskf }) {
   return (
     <SafeAreaView style={styles.Container}>
       <View style={styles.titulo}>
-        <Text style={styles.textTitulo}>Meus Filmes</Text>
+        <Text style={styles.textTitulo}>Datas de Aniversario</Text>
       </View>
       <AnimatedFl
         animation="fadeInUp"
@@ -73,12 +82,12 @@ export default function Filmes({ taskf }) {
         marginVertical={5}
         marginHorizontal={10}
         showsHorizontalScrollIndicator={false}
-        data={task.sort((a, b) => a.task.localeCompare(b.task))}
+        data={task.sort((a, b) => a.nome.localeCompare(b.nome))}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <TaskList data={item} handleDelete={handleDelete} />
+          <NiverN data={item} handleDelete={handleDelete} />
         )}
-      />
+      ></AnimatedFl>
 
       <Modal animationType="slide" transparent={false} visible={open}>
         <SafeAreaView style={styles.modal}>
@@ -89,7 +98,7 @@ export default function Filmes({ taskf }) {
             >
               <Ionicons name="md-arrow-back" size={40} color="#fff"></Ionicons>
             </TouchableOpacity>
-            <Text style={styles.tituloModal}>Novo Filme</Text>
+            <Text style={styles.tituloModal}>Nova Data</Text>
           </View>
 
           <Animatable.View
@@ -98,15 +107,45 @@ export default function Filmes({ taskf }) {
             style={styles.corpoModal}
           >
             <TextInput
-              placeholder="Qual o nome do filme?"
+              placeholder="Quem é?"
               textAlign="center"
               style={styles.TextInput}
               maxLength={30}
               autoCorrect={false}
-              value={input}
-              onChangeText={(texto) => setInput(texto)}
+              value={inputNome}
+              editable={true}
+              onChangeText={(texto) => setinputNome(texto)}
             ></TextInput>
-
+            <TextInput
+              placeholder="Qual o dia?"
+              textAlign="center"
+              style={styles.TextInput}
+              maxLength={30}
+              autoCorrect={false}
+              value={inputDia}
+              editable={true}
+              onChangeText={(texto) => setInputDia(texto)}
+            ></TextInput>
+            <TextInput
+              placeholder="Qual o Mês?"
+              textAlign="center"
+              style={styles.TextInput}
+              maxLength={30}
+              autoCorrect={false}
+              value={inputMes}
+              editable={true}
+              onChangeText={(texto) => setInputMes(texto)}
+            ></TextInput>
+            <TextInput
+              placeholder="Se vai comprar presente, qual é?"
+              textAlign="center"
+              style={styles.TextInput}
+              maxLength={30}
+              autoCorrect={false}
+              value={inputPres}
+              editable={true}
+              onChangeText={(texto) => setinputPres(texto)}
+            ></TextInput>
             <TouchableOpacity style={styles.btnAdd} onPress={handleAdd}>
               <Text style={styles.TxtBtn}>Adicionar</Text>
             </TouchableOpacity>
@@ -138,7 +177,7 @@ export default function Filmes({ taskf }) {
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: "#0d212f",
+    backgroundColor: "#244157",
   },
   titulo: {
     alignItems: "center",
@@ -203,16 +242,15 @@ const styles = StyleSheet.create({
     },
     color: "#000",
   },
-  btnAdd: {
-    alignItems: "center",
-    alignContent: "center",
-    marginLeft: 120,
+  TempInput: {
+    fontSize: 20,
+    marginLeft: 10,
     marginRight: 10,
-    marginTop: 50,
+    marginTop: 30,
     backgroundColor: "#fff",
     padding: 9,
-    height: 40,
-    width: 190,
+    height: 50,
+    textAlignVertical: "center",
     borderRadius: 8,
     elevation: 2,
     shadowColor: "#000",
@@ -222,6 +260,33 @@ const styles = StyleSheet.create({
       height: 3,
     },
     color: "#000",
+  },
+  btnAdd: {
+    alignItems: "center",
+    alignContent: "center",
+    marginLeft: 120,
+    marginRight: 10,
+    marginTop: 100,
+    backgroundColor: "#fff",
+    padding: 9,
+    height: 40,
+    width: 200,
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    color: "#000",
+  },
+  TxtBtn: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  viewIp: {
+    flexDirection: "row",
   },
   btback: {
     position: "absolute",
@@ -236,8 +301,32 @@ const styles = StyleSheet.create({
       height: 3,
     },
   },
-  TxtBtn: {
+  muda: {
+    position: "absolute",
+    bottom: 130,
+    right: 3,
+    elevation: 2,
+    zIndex: 9,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+  },
+  txtS: {
     fontSize: 20,
-    fontWeight: "bold",
+    color: "#fff",
+    right: 140,
+  },
+  txt: {
+    fontSize: 20,
+    color: "#fff",
+    marginLeft: 30,
+  },
+  txts: {
+    top: 10,
+    left: 186,
+    flexDirection: "row",
   },
 });

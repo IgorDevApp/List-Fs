@@ -16,7 +16,7 @@ import * as Animatable from "react-native-animatable";
 import { color } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const AnimatedFl = Animatable.createAnimatableComponent(FlatList);
-
+import { useNavigation } from "@react-navigation/native";
 export default function Series() {
   const Animatedbtn = Animatable.createAnimatableComponent(TouchableOpacity);
   const [task, setTask] = useState([]);
@@ -24,7 +24,7 @@ export default function Series() {
   const [input, setInput] = useState("");
   const [inputTemp, setInputTemp] = useState("");
   const [inputEp, setInputEp] = useState("");
-
+  const navigation = useNavigation();
   useEffect(() => {
     async function loadTask() {
       const taskStorange = await AsyncStorage.getItem("@filmes");
@@ -144,7 +144,15 @@ export default function Series() {
           </Animatable.View>
         </SafeAreaView>
       </Modal>
-
+      <Animatedbtn
+        useNativeDriver
+        animation="bounceInUp"
+        duration={1500}
+        style={styles.btback}
+        onPress={() => navigation.navigate("home")}
+      >
+        <Ionicons name="arrow-back-circle" color="#0070ff" size={40}></Ionicons>
+      </Animatedbtn>
       <Animatedbtn
         useNativeDriver
         animation="bounceInUp"
@@ -281,6 +289,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     marginLeft: 30,
+  },
+  btback: {
+    position: "absolute",
+    bottom: 90,
+    right: 3,
+    elevation: 2,
+    zIndex: 9,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
   },
   txts: {
     top: 10,

@@ -14,9 +14,8 @@ import { Divider } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import * as Animatable from "react-native-animatable";
 import { divide } from "react-native-reanimated";
-
 //Quando recebe coloca chaves:Estou recebendo meu data
-export default function TaskListLNv({ data, handleDelete }) {
+export default function TaskListLNv({ data, handleDelete, count }) {
   let ano = data.ano;
   let aut = data.At;
   let cit1 = data.cit;
@@ -101,24 +100,22 @@ export default function TaskListLNv({ data, handleDelete }) {
       return <View></View>;
     }
   }
-
   const [Open, setOpen] = useState(false);
   return (
     <Animatable.View animation="bounceIn" useNativeDriver>
       <TouchableOpacity onPress={() => setOpen(true)}>
         <View style={styles.Container} animation="bounceIn" useNativeDriver>
           <View>
+            <Text style={styles.Text}>count</Text>
             <Text style={styles.Text}>{data.task}</Text>
           </View>
         </View>
       </TouchableOpacity>
-
       <View style={styles.TempEdi}>
         <TouchableOpacity onPress={() => handleDelete(data)}>
           <Ionicons name="trash" color="#fff" size={30}></Ionicons>
         </TouchableOpacity>
       </View>
-
       <Modal animationType="fade" transparent={true} visible={Open}>
         <SafeAreaView style={styles.modalComp}>
           <View style={styles.modalHeader}>

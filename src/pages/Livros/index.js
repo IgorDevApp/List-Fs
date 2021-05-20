@@ -180,7 +180,15 @@ export default function Livros() {
           </TouchableOpacity>
         </SafeAreaView>
       </Modal>
-
+      <Animatedbtn
+        useNativeDriver
+        animation="bounceInUp"
+        duration={1500}
+        style={styles.btback}
+        onPress={() => navigation.navigate("home")}
+      >
+        <Ionicons name="arrow-back-circle" color="#0070ff" size={40}></Ionicons>
+      </Animatedbtn>
       <Animatedbtn
         useNativeDriver
         animation="bounceInUp"
@@ -315,6 +323,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     marginLeft: 30,
+  },
+  btback: {
+    position: "absolute",
+    bottom: 90,
+    right: 3,
+    elevation: 2,
+    zIndex: 9,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
   },
   txts: {
     top: 10,

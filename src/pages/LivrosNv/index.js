@@ -61,7 +61,7 @@ export default function LivrosNv() {
       cit: inputCit,
       cit2: inputCit2,
     };
-
+    setCount(count + 1);
     setTask([...task, data]);
     setOpen(false);
     setInput("");
@@ -76,7 +76,7 @@ export default function LivrosNv() {
     setTask(find);
     navigation.navigate("Livros");
   });
-
+  const [count, setCount] = useState(0);
   return (
     <SafeAreaView style={styles.Container}>
       <View style={styles.titulo}>
@@ -91,7 +91,7 @@ export default function LivrosNv() {
         data={task.sort((a, b) => a.task.localeCompare(b.task))}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <TaskListLNv data={item} handleDelete={handleDelete} />
+          <TaskListLNv data={item} handleDelete={handleDelete} setCount count />
         )}
       ></AnimatedFl>
 
@@ -180,7 +180,15 @@ export default function LivrosNv() {
           </TouchableOpacity>
         </SafeAreaView>
       </Modal>
-
+      <Animatedbtn
+        useNativeDriver
+        animation="bounceInUp"
+        duration={1500}
+        style={styles.btback}
+        onPress={() => navigation.navigate("home")}
+      >
+        <Ionicons name="arrow-back-circle" color="#0070ff" size={40}></Ionicons>
+      </Animatedbtn>
       <Animatedbtn
         useNativeDriver
         animation="bounceInUp"
@@ -315,6 +323,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     marginLeft: 30,
+  },
+  btback: {
+    position: "absolute",
+    bottom: 90,
+    right: 3,
+    elevation: 2,
+    zIndex: 9,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
   },
   txts: {
     top: 10,

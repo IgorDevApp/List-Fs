@@ -12,25 +12,26 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Animatable from "react-native-animatable";
 
 //Quando recebe coloca chaves:Estou recebendo meu data
-export default function TaskListSNv({ data, handleDelete }) {
+export default function NiverN({ data, handleDelete }) {
   return (
     <Animatable.View animation="bounceIn" useNativeDriver>
       <View style={styles.Container} animation="bounceIn" useNativeDriver>
-        <TouchableOpacity>
-          <Ionicons
-            name="md-checkmark-circle"
-            size={30}
-            color="#00825f"
-          ></Ionicons>
-        </TouchableOpacity>
         <View>
-          <Text style={styles.Text}>{data.task}</Text>
+          <Text style={styles.Text}>{data.nome} :</Text>
         </View>
-      </View>
-      <View style={styles.TempEdi}>
-        <TouchableOpacity onPress={() => handleDelete(data)}>
-          <Ionicons name="trash" color="#fff" size={30}></Ionicons>
-        </TouchableOpacity>
+        <View style={styles.aling}>
+          <View>
+            <Text style={styles.TextAl}>{data.dia} /</Text>
+          </View>
+          <View>
+            <Text style={styles.TextAl}> {data.mes}</Text>
+          </View>
+        </View>
+        <View style={styles.TempEdi}>
+          <TouchableOpacity onPress={() => handleDelete(data)}>
+            <Ionicons name="trash" color="#000" size={30}></Ionicons>
+          </TouchableOpacity>
+        </View>
       </View>
     </Animatable.View>
   );
@@ -38,11 +39,11 @@ export default function TaskListSNv({ data, handleDelete }) {
 
 const styles = StyleSheet.create({
   Container: {
-    width: 345,
-    height: 50,
+    width: 380,
+    height: 100,
     margin: 8,
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 5,
     padding: 7,
@@ -54,11 +55,24 @@ const styles = StyleSheet.create({
       height: 3,
     },
   },
+  aling: {
+    flexDirection: "row",
+    marginLeft: 15,
+  },
   modalbtn: {
     marginLeft: 5,
     marginRight: 5,
   },
   Text: {
+    color: "#121212",
+    fontSize: 25,
+    paddingLeft: 10,
+  },
+  TextAl: {
+    color: "#121212",
+    fontSize: 25,
+  },
+  TextNome: {
     color: "#121212",
     fontSize: 20,
     paddingLeft: 10,
@@ -106,8 +120,8 @@ const styles = StyleSheet.create({
   },
   TempEdi: {
     position: "absolute",
-    left: 355,
-    top: 15,
+    left: 340,
+    top: 10,
     zIndex: 5,
   },
   modal: {
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   TextInput: {
-    fontSize: 20,
+    fontSize: 30,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 30,
@@ -153,7 +167,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   TempInput: {
-    fontSize: 20,
+    fontSize: 30,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 30,
